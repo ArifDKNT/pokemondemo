@@ -177,18 +177,7 @@ export default function CardDetailScreen() {
         onPress={() => router.back()}
         hitSlop={20}
       >
-        <Ionicons
-          name='chevron-back'
-          size={28}
-          color='#fff'
-          style={{
-            transform: [
-              {
-                rotate: '270deg',
-              },
-            ],
-          }}
-        />
+        <Ionicons name='close' size={28} color='#fff' />
       </Pressable>
     </View>
   );
