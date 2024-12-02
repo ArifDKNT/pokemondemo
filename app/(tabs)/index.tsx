@@ -54,7 +54,7 @@ export default function PokemonCardList(): JSX.Element {
 
   const isScrolling = useRef(false);
 
-  // Handle scroll start
+  // Hide tab bar when scroll starts
   const handleScrollStart = () => {
     if (!isScrolling.current) {
       isScrolling.current = true;
@@ -62,7 +62,7 @@ export default function PokemonCardList(): JSX.Element {
     }
   };
 
-  // Handle scroll end
+  // Show tab bar when scroll ends
   const handleScrollEnd = () => {
     if (isScrolling.current) {
       isScrolling.current = false;

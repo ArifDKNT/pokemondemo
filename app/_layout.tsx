@@ -62,7 +62,14 @@ function RootLayoutNav() {
           <UserProvider>
             <Stack>
               <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-              <Stack.Screen name='detail' options={{ presentation: 'modal' }} />
+              <Stack.Screen
+                name='detail'
+                options={{
+                  presentation: 'fullScreenModal',
+                  animation: 'slide_from_bottom',
+                  headerShown: false,
+                }}
+              />
             </Stack>
           </UserProvider>
         </PokemonCardsProvider>
