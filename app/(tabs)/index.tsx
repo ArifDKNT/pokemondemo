@@ -22,6 +22,7 @@ import Animated, {
   Extrapolate,
 } from 'react-native-reanimated';
 import { useTabBar } from '@/contexts/TabBarProvider';
+import FlyingHeader from '@/components/FlyingHeader';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH - 40;
@@ -179,6 +180,7 @@ export default function PokemonCardList(): JSX.Element {
 
   return (
     <View style={styles.container}>
+      <FlyingHeader />
       <AnimatedFlatList
         data={cards}
         renderItem={renderItem}
@@ -205,7 +207,7 @@ export default function PokemonCardList(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'transparent',
   },
   loadingContainer: {
     flex: 1,
@@ -213,7 +215,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listContent: {
-    paddingTop: SCREEN_HEIGHT * 0.1,
+    paddingTop: SCREEN_HEIGHT * 0.18,
     paddingBottom: SCREEN_HEIGHT * 0.4,
     paddingHorizontal: 20,
   },

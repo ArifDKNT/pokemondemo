@@ -1,6 +1,6 @@
 // app/(tabs)/profile.tsx
 import React from 'react';
-import { StyleSheet, FlatList, Pressable } from 'react-native';
+import { StyleSheet, FlatList, Pressable, SafeAreaView } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -45,7 +45,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Saved Cards</Text>
       <FlatList
         data={savedCards}
@@ -54,7 +54,7 @@ export default function ProfileScreen() {
         numColumns={2}
         contentContainerStyle={styles.listContent}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     padding: 10,
+    paddingBottom: 80,
   },
   card: {
     flex: 1,
@@ -76,7 +77,6 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     borderRadius: 10,
-    backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
