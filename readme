@@ -1,0 +1,40 @@
+pokemondemo
+
+Features
+Card Listing: Browse through a collection of Pokémon cards with animated transitions.
+Card Details: View detailed information about individual cards, including their types, HP, attacks, weaknesses, and more.
+Like (Save) Cards: Save or remove cards to/from your favorites list.
+Animated Header: Experience a dynamic header that collapses on scrolling.
+Dark/Light Theme Support: Automatically adapts to the device's color scheme.
+
+Frontend: React Native, Expo
+Navigation: Expo Router
+State Management: Context API
+Animations: Reanimated 2
+Custom Components: Themed UI components for consistency
+Installation
+Follow these steps to run the project locally:
+
+Prerequisites
+Node.js (v14 or higher)
+Expo CLI
+A Pokémon card API or local card data in contexts/pokemonContext
+Steps
+Clone this repository:
+
+git clone https://github.com/ArifDKNT/pokemondemo.git / (or Download Zip)
+cd pokemondemo
+Install dependencies:
+npm/bun/yarn install
+Start the development server:
+npm/bun/yarn start
+Use the Expo Go app on your device or an emulator to preview the app.
+
+Usage
+Open the app.
+Browse the Pokémon cards on the home screen.
+Tap a card to view its details.
+Save or remove the card from your favorites using the heart button.
+Navigate back to the main screen or explore more cards.
+File Structure
+
