@@ -1,31 +1,21 @@
-// app/(tabs)/index.tsx
+// app/(tabs)/profile.tsx
 import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  Pressable,
-  Text,
-  View,
-  ListRenderItem,
-} from 'react-native';
+import { StyleSheet, FlatList, Pressable } from 'react-native';
+import { Text, View } from '@/components/Themed';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { usePokemonCards } from '@/contexts/pokemonContext';
+import { useUser } from '@/contexts/userContext';
 import { Card } from '@/lib/Card';
 
-export default function TabOneScreen(): JSX.Element {
-  const { cards, loading, hasMore, loadMore } = usePokemonCards();
+export default function ProfileScreen() {
   const router = useRouter();
+  const { cards } = usePokemonCards();
+  const { user } = useUser();
 
-  const handleLoadMore = (): void => {
-    console.log('Loading more...', { hasMore, loading });
-    if (!loading && hasMore) {
-      loadMore();
-    }
-  };
+  const savedCards = cards.filter((card) => user?.cards.includes(card.id));
 
-  const renderItem: ListRenderItem<Card> = ({ item: card }) => (
+  const renderItem = ({ item: card }: { item: Card }) => (
     <Pressable
       style={styles.card}
       onPress={() => {
@@ -46,23 +36,22 @@ export default function TabOneScreen(): JSX.Element {
     </Pressable>
   );
 
-  const renderFooter = (): JSX.Element => (
-    <View style={styles.footer}>
-      {loading && <ActivityIndicator size='large' />}
-      {!hasMore && <Text>No more cards to load</Text>}
-    </View>
-  );
+  if (!user?.cards.length) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No saved cards yet</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <FlatList<Card>
-        data={cards}
+      <Text style={styles.title}>Saved Cards</Text>
+      <FlatList
+        data={savedCards}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.3}
-        ListFooterComponent={renderFooter}
         contentContainerStyle={styles.listContent}
       />
     </View>
@@ -72,6 +61,11 @@ export default function TabOneScreen(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    padding: 20,
   },
   listContent: {
     padding: 10,
@@ -103,8 +97,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  footer: {
-    paddingVertical: 20,
+  emptyContainer: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontSize: 18,
+    color: '#666',
   },
 });
