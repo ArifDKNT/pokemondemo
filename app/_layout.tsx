@@ -13,6 +13,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 import { UserProvider } from '@/contexts/userContext';
 import { PokemonCardsProvider } from '@/contexts/pokemonContext';
+import { TabBarProvider } from '@/contexts/TabBarProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -56,14 +57,16 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <PokemonCardsProvider revalidate='revalidate'>
-        <UserProvider>
-          <Stack>
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-            <Stack.Screen name='detail' options={{ presentation: 'modal' }} />
-          </Stack>
-        </UserProvider>
-      </PokemonCardsProvider>
+      <TabBarProvider>
+        <PokemonCardsProvider revalidate='revalidate'>
+          <UserProvider>
+            <Stack>
+              <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+              <Stack.Screen name='detail' options={{ presentation: 'modal' }} />
+            </Stack>
+          </UserProvider>
+        </PokemonCardsProvider>
+      </TabBarProvider>
     </ThemeProvider>
   );
 }

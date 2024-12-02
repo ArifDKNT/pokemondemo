@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   StyleSheet,
   ActivityIndicator,
@@ -21,6 +21,7 @@ import Animated, {
   interpolate,
   Extrapolate,
 } from 'react-native-reanimated';
+import { useTabBar } from '@/contexts/TabBarProvider';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH - 40;
@@ -29,6 +30,7 @@ const CARD_OVERLAP = CARD_WIDTH / 2;
 const ITEM_SIZE = CARD_HEIGHT - CARD_OVERLAP;
 const VISIBLE_CARDS = 5;
 
+// Animateds
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedFlatList = Animated.createAnimatedComponent<any>(FlatList);
@@ -42,6 +44,7 @@ export default function PokemonCardList(): JSX.Element {
   const { cards, loading, hasMore, loadMore } = usePokemonCards();
   const router = useRouter();
   const scrollY = useSharedValue(0);
+  const { showTabBarAnimated, hideTabBarAnimated } = useTabBar();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -49,6 +52,24 @@ export default function PokemonCardList(): JSX.Element {
     },
   });
 
+  const isScrolling = useRef(false);
+
+  // Handle scroll start
+  const handleScrollStart = () => {
+    if (!isScrolling.current) {
+      isScrolling.current = true;
+      hideTabBarAnimated(); // Hide the tab bar
+    }
+  };
+
+  // Handle scroll end
+  const handleScrollEnd = () => {
+    if (isScrolling.current) {
+      isScrolling.current = false;
+      showTabBarAnimated(); // Show the tab bar
+    }
+  };
+  // animated pokemon card
   const CardItem = React.memo(({ card, index }: CardItemProps) => {
     const pressed = useSharedValue(1);
 
@@ -141,6 +162,7 @@ export default function PokemonCardList(): JSX.Element {
     [loading, hasMore]
   );
 
+  // on end reached load more pokemon cards
   const handleLoadMore = useCallback(() => {
     if (!loading && hasMore) {
       loadMore();
@@ -163,6 +185,8 @@ export default function PokemonCardList(): JSX.Element {
         keyExtractor={keyExtractor}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
+        onScrollBeginDrag={handleScrollStart}
+        onScrollEndDrag={handleScrollEnd}
         ListFooterComponent={renderFooter}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
@@ -173,7 +197,6 @@ export default function PokemonCardList(): JSX.Element {
         snapToAlignment='start'
         initialNumToRender={VISIBLE_CARDS}
         maxToRenderPerBatch={3}
-        windowSize={7}
       />
     </View>
   );
