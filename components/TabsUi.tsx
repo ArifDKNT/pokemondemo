@@ -6,6 +6,7 @@ import Animated from 'react-native-reanimated';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useTabBar } from '@/contexts/TabBarProvider';
 import TabsHandler from './TabsHandler';
+import { RelativePathString } from 'expo-router';
 
 const wWidth = Dimensions.get('window').width;
 const NAVIGATION_BOTTOM_TABS_HEIGHT = 60;
@@ -13,7 +14,7 @@ const NAVIGATION_BOTTOM_TABS_HEIGHT = 60;
 interface TabsUIProps {
   tabs: Array<{
     name: string;
-    route: string;
+    route: RelativePathString;
     icon: React.ComponentProps<typeof FontAwesome>['name'];
   }>;
   hidden?: boolean;

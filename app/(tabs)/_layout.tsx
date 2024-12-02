@@ -1,13 +1,17 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { useColorScheme } from '@/components/useColorScheme';
 import TabsUI from '@/components/TabsUi';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useTabBar } from '@/contexts/TabBarProvider';
+import type { RelativePathString } from 'expo-router/build/types';
 
-const tabs = [
-  { name: 'Feed', route: '/', icon: 'home' },
-  { name: 'Profile', route: '/profile', icon: 'save' },
+// Define the tabs with proper types
+const tabs: {
+  name: string;
+  route: RelativePathString;
+  icon: 'home' | 'save';
+}[] = [
+  { name: 'Feed', route: '/' as RelativePathString, icon: 'home' },
+  { name: 'Profile', route: '/profile' as RelativePathString, icon: 'save' },
 ];
 
 export default function TabLayout() {
