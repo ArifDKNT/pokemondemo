@@ -26,8 +26,7 @@ const PokemonCardsContext = createContext<PokemonCardsContextType | undefined>(
 
 export const PokemonCardsProvider: React.FC<{
   children: ReactNode;
-  revalidate: string;
-}> = ({ children, revalidate }) => {
+}> = ({ children }) => {
   const [cards, setCards] = useState<Array<Card>>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,16 +85,12 @@ export const PokemonCardsProvider: React.FC<{
       setLoading(true);
       try {
         const storedProducts = await getCards();
-        if (storedProducts.cards && revalidate !== 'revalidate') {
+        if (storedProducts.cards.length > 0) {
           setCards(storedProducts.cards);
         } else {
           const { cards: freshCards } = await loadCards(1);
           setCards(freshCards);
           await storeCards(freshCards);
-          await AsyncStorage.setItem(
-            '@cardsRevalidate',
-            JSON.stringify(new Date().toString())
-          );
         }
       } catch (error) {
         console.error('Error in initial load:', error);

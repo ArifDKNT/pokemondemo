@@ -58,7 +58,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <TabBarProvider>
-        <PokemonCardsProvider revalidate='revalidate'>
+        <PokemonCardsProvider>
           <UserProvider>
             <Stack>
               <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
