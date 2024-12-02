@@ -46,7 +46,7 @@ export const getCards = async (): Promise<any> => {
   try {
     const jsonValue = await AsyncStorage.getItem('@cards');
     return {
-      cards: JSON.parse(jsonValue),
+      cards: jsonValue ? JSON.parse(jsonValue) : [],
     };
   } catch (e) {
     console.error('Failed to get the products from local storage', e);
