@@ -8,6 +8,7 @@ import {
   Pressable,
   FlatList,
   ListRenderItem,
+  useColorScheme,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -23,6 +24,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useTabBar } from '@/contexts/TabBarProvider';
 import FlyingHeader from '@/components/FlyingHeader';
+import { useTheme } from '@react-navigation/native';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH - 40;
@@ -43,9 +45,11 @@ interface CardItemProps {
 
 export default function PokemonCardList(): JSX.Element {
   const { cards, loading, hasMore, loadMore } = usePokemonCards();
+  const { colors } = useTheme();
   const router = useRouter();
   const scrollY = useSharedValue(0);
   const { showTabBarAnimated, hideTabBarAnimated } = useTabBar();
+  const colorScheme = useColorScheme();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -157,7 +161,9 @@ export default function PokemonCardList(): JSX.Element {
     () => (
       <View style={styles.footer}>
         {loading && <ActivityIndicator size='large' />}
-        {!hasMore && <Text>No more cards to load</Text>}
+        {!hasMore && (
+          <Text style={styles.noMoreText}>No more cards to load</Text>
+        )}
       </View>
     ),
     [loading, hasMore]
@@ -177,9 +183,15 @@ export default function PokemonCardList(): JSX.Element {
       </View>
     );
   }
-
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: colorScheme === 'dark' ? '#353935' : '#fff',
+        },
+      ]}
+    >
       <FlyingHeader />
       <AnimatedFlatList
         data={cards}
@@ -207,17 +219,6 @@ export default function PokemonCardList(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listContent: {
-    paddingTop: SCREEN_HEIGHT * 0.18,
-    paddingBottom: SCREEN_HEIGHT * 0.4,
-    paddingHorizontal: 20,
   },
   cardContainer: {
     height: CARD_HEIGHT,
@@ -268,8 +269,29 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
   },
-  footer: {
-    paddingVertical: 20,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  listContent: {
+    paddingTop: SCREEN_HEIGHT * 0.18,
+    paddingHorizontal: 20,
+    paddingBottom: 80, // Ensure space for the footer
+  },
+  footer: {
+    position: 'absolute', // Fix the footer at the bottom of the screen
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 80,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Optional for visibility
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noMoreText: {
+    fontSize: 16,
+    color: '#555',
+    marginTop: 8,
   },
 });

@@ -8,10 +8,10 @@ import type { RelativePathString } from 'expo-router/build/types';
 const tabs: {
   name: string;
   route: RelativePathString;
-  icon: 'home' | 'save';
+  icon: 'home' | 'heart';
 }[] = [
   { name: 'Feed', route: '/' as RelativePathString, icon: 'home' },
-  { name: 'Profile', route: '/profile' as RelativePathString, icon: 'save' },
+  { name: 'Profile', route: '/profile' as RelativePathString, icon: 'heart' },
 ];
 
 export default function TabLayout() {

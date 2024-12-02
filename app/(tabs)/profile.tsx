@@ -1,6 +1,12 @@
 // app/(tabs)/profile.tsx
 import React from 'react';
-import { StyleSheet, FlatList, Pressable, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  useColorScheme,
+} from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -12,6 +18,7 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { cards } = usePokemonCards();
   const { user } = useUser();
+  const colorScheme = useColorScheme();
 
   const savedCards = cards.filter((card) => user?.cards.includes(card.id));
 
@@ -45,7 +52,14 @@ export default function ProfileScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        {
+          backgroundColor: colorScheme === 'dark' ? '#353935' : '#fff',
+        },
+      ]}
+    >
       <Text style={styles.title}>Saved Cards</Text>
       <FlatList
         data={savedCards}
@@ -80,7 +94,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 0,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,

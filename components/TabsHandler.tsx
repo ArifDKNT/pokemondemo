@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter, usePathname } from 'expo-router';
+import { useRouter, usePathname, RelativePathString } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Animated, {
   useSharedValue,
@@ -15,7 +15,7 @@ const NAVIGATION_BOTTOM_TABS_HEIGHT = 60;
 interface TabsHandlerProps {
   tabs: Array<{
     name: string;
-    route: string;
+    route: RelativePathString;
     icon: React.ComponentProps<typeof FontAwesome>['name'];
   }>;
   tabWidth: number;

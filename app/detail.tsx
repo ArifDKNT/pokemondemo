@@ -100,7 +100,10 @@ export default function CardDetailScreen() {
     <View style={styles.container}>
       <StatusBar barStyle='light-content' />
       <AnimatedScrollView
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[
+          styles.scrollContainer,
+          { minHeight: SCREEN_HEIGHT + HEADER_SCROLL_DISTANCE },
+        ]}
         onScroll={scrollHandler}
         scrollEventThrottle={16}
       >
@@ -183,10 +186,8 @@ export default function CardDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   scrollContainer: {
-    paddingBottom: 250,
     paddingTop: 40,
   },
   header: {
@@ -194,7 +195,6 @@ const styles = StyleSheet.create({
     top: 40,
     left: 0,
     right: 0,
-    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     padding: 20,
-    backgroundColor: '#fff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginTop: -20,
